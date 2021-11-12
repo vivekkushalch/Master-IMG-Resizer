@@ -3,7 +3,11 @@
 <p align="center"><b>All in one image resizer, optimizer(compressor) and converter</b></p>
 
 <p align="center">
-![Visitors](https://visitor-badge.deta.dev/badge?page_id=repo.visitor-badge) ![Issues](https://img.shields.io/github/issues/vivekkushalch/Master-IMG-Resizer) ![Forks](https://img.shields.io/github/forks/vivekkushalch/Master-IMG-Resizer) ![Stars](https://img.shields.io/github/stars/vivekkushalch/Master-IMG-Resizer) ![Lisence](https://img.shields.io/github/license/vivekkushalch/Master-IMG-Resizer)
+    <img src="https://visitor-badge.deta.dev/badge?page_id=repo.visitor-badge" alt="">
+    <img src="https://img.shields.io/github/issues/vivekkushalch/Master-IMG-Resizer" alt="">
+    <img src="https://img.shields.io/github/forks/vivekkushalch/Master-IMG-Resizer" alt="">
+    <img src="https://img.shields.io/github/stars/vivekkushalch/Master-IMG-Resizer" alt="">
+    <img src="https://img.shields.io/github/license/vivekkushalch/Master-IMG-Resizer" alt="">
 </p>
 
 
