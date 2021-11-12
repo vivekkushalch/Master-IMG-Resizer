@@ -52,9 +52,9 @@ Index
 
 [:arrow_up:](#index) Screen Shots
 ---
-<a href="README-Assets/ScreenShot(1).png" title="Home Screen"><img src="README-Assets/ScreenShot(1).png" alt="previewImg" width="500"></a> | <a href="README-Assets/ScreenShot(2).png" title="Selecting Images"><img src="README-Assets/ScreenShot(2).png" alt="previewImg" width="500"></a>
+<a href="README-Assets/ScreenShot(1).png" title="Home Screen"><img src="README-Assets/ScreenShot(1).png" alt="previewImg" width="500"></a> | <a href="README-Assets/ScreenShot(2).PNG" title="Selecting Images"><img src="README-Assets/ScreenShot(2).PNG" alt="previewImg" width="500"></a>
 :-------------------------:|:-------------------------:
-<a href="README-Assets/ScreenShot(3).png" title="Progress Bar"><img src="README-Assets/ScreenShot(3).png" alt="previewImg" width="500"></a> | <a href="README-Assets/ScreenShot(4).png" title="Code Output Screen "><img src="README-Assets/ScreenShot(4).png" alt="previewImg" width="500"></a>
+<a href="README-Assets/ScreenShot(3).PNG" title="Progress Bar"><img src="README-Assets/ScreenShot(3).PNG" alt="previewImg" width="500"></a> | <a href="README-Assets/ScreenShot(4).PNG" title="Code Output Screen "><img src="README-Assets/ScreenShot(4).PNG" alt="previewImg" width="500"></a>
 
 
 <br>
