@@ -7,6 +7,7 @@
     <img src="https://img.shields.io/github/issues/vivekkushalch/Master-IMG-Resizer" alt="">
     <img src="https://img.shields.io/github/forks/vivekkushalch/Master-IMG-Resizer" alt="">
     <img src="https://img.shields.io/github/stars/vivekkushalch/Master-IMG-Resizer" alt="">
+    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/vivekkushalch/Master-IMG-Resizer/total?color=green">
     <img src="https://img.shields.io/github/license/vivekkushalch/Master-IMG-Resizer" alt="">
 </p>
 
@@ -52,7 +53,7 @@ Index
 
 [:arrow_up:](#index) Installation
 ---
-> Download the [Master-Image-Resizer(v1.0.0).rar]() then extract it and run the Master-Resizer.exe.
+> Download the [Master-Image-Resizer.v1.0.0.rar](https://github.com/vivekkushalch/Master-IMG-Resizer/releases/tag/v1.0.0) then extract it and run the Master-Resizer.exe.
 
 
 <br>
