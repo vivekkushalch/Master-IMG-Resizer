@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-core="default" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Halfmoon CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/halfmoon@2.0.1/css/halfmoon.min.css" rel="stylesheet" integrity="sha256-SsJizWSIG9JT9Qxbiy8xnYJfjCAkhEQ0hihxRn7jt2M=" crossorigin="anonymous">
+
+    <!-- Halfmoon modern core theme -->
+    <link href="https://cdn.jsdelivr.net/npm/halfmoon@2.0.1/css/cores/halfmoon.modern.css" rel="stylesheet" integrity="sha256-DD6elX+jPmbFYPsGvzodUv2+9FHkxHlVtQi0/RJVULs=" crossorigin="anonymous">
+
+
+    <!-- gfonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <title>Image Convert and Resize</title>
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        #drop-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            margin: 20px auto;
+            width: 84%;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="settings-container" class="container card mt-3 border">
+        <div id="settings" class="row p-3">
+            <div class="row align-items-left">
+                <div class="col border-end p-3">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <label for="format">Select Format:</label>
+                            <select class="form-select" id="format" onchange="resizeImage()">
+                                <option value="jpeg">JPEG</option>
+                                <option value="jpg">JPG</option>
+                                <option value="png">PNG</option>
+                                <option value="webp">WEBP</option>
+                            </select>
+                        </div>
+
+                        <div class="col">
+                            <label for="maintain-aspect-ratio" class="form-check-label">Maintain Aspect Ratio:</label>
+                            <input type="checkbox" class="form-check-input" id="maintain-aspect-ratio" onchange="resizeImage()">
+                        </div>
+                    </div>
+
+                    <div class="row mt-2 text-start w-full">
+                        <div class="col">
+                            <label for="width">Width:</label>
+                            <input type="number" class="form-control" id="width" placeholder="Width" oninput="resizeImage()">
+                        </div>
+
+                        <div class="col">
+                            <label for="height">Height:</label>
+                            <input type="number" class="form-control" id="height" placeholder="Height" oninput="resizeImage()">
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mt-2">
+                        <div class="col">
+                            <button onclick="downloadImage()" class="btn btn-primary btn-sm d-block w-100 p-2">Download Image</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col p-3">
+                    <div id="image-dimensions">You can Upload / DragNdrop / Paste a image to get started!</div>
+                    <div id="metadata"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="drop-area" ondrop="drop(event)" ondragover="allowDrop(event)" onclick="openFileInput()">
+        <p class="text-primary-emphasis">Drag and drop an image here, or click to select one. You can also paste an image.
+        </p>
+        <input type="file" id="file-input" style="display: none;" accept="image/*" onchange="handleFile()">
+        <div id="image-preview"></div>
+    </div>
+
+    <script>
+        let image;
+        let currentFile;
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                handleImage(files[0]);
+            }
+        }
+
+        function openFileInput() {
+            document.getElementById('file-input').click();
+        }
+
+        // Global event listener for Ctrl+V
+        document.addEventListener('paste', function(e) {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (const item of items) {
+                if (item.kind === 'file') {
+                    const file = item.getAsFile();
+                    handleImage(file);
+                    break; // Handle only the first image
+                }
+            }
+        });
+
+        function handleFile() {
+            const fileInput = document.getElementById('file-input');
+            const files = fileInput.files;
+            if (files.length > 0) {
+                handleImage(files[0]);
+            }
+        }
+
+
+
+        function handleImage(file) {
+            currentFile = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                image = new Image();
+                image.src = e.target.result;
+                image.onload = function() {
+                    const dropArea = document.getElementById('drop-area');
+                    dropArea.innerHTML = ''; // Clear previous content
+                    dropArea.appendChild(image);
+
+                    // Pre-fill original size in input boxes
+                    document.getElementById('width').value = image.width;
+                    document.getElementById('height').value = image.height;
+
+                    // metadata
+                    document.getElementById('image-dimensions').innerText = `Dimensions: ${image.width} x ${image.height}`;
+
+                    const metadata = document.getElementById('metadata');
+                    metadata.innerHTML = `File Format: ${currentFile.type}<br>`;
+                    metadata.innerHTML += `File Size: ${convertBytes(currentFile.size)}<br>`;
+                    metadata.innerHTML += `File Name: ${currentFile.name}<br>`;
+
+                    resizeImage(); // Automatically apply settings when a new image is loaded
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function convertBytes(bytes) {
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+
+            if (bytes == 0) return '0 Byte';
+            const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+
+            return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+        }
+
+        function resizeImage() {
+            const format = document.getElementById('format').value;
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+            const maintainAspectRatio = document.getElementById('maintain-aspect-ratio').checked;
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            let newWidth, newHeight;
+
+            if (maintainAspectRatio) {
+                const aspectRatio = image.width / image.height;
+                if (!isNaN(width)) {
+                    newWidth = width;
+                    newHeight = width / aspectRatio;
+                } else if (!isNaN(height)) {
+                    newHeight = height;
+                    newWidth = height * aspectRatio;
+                }
+            } else {
+                newWidth = isNaN(width) ? image.width : width;
+                newHeight = isNaN(height) ? image.height : height;
+            }
+
+            // Update real-time dimensions text
+            //document.getElementById('image-dimensions').innerText = `Dimensions: ${newWidth} x ${newHeight}`;
+
+            document.getElementById('width').value = newWidth;
+            document.getElementById('height').value = newHeight;
+
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            ctx.drawImage(image, 0, 0, newWidth, newHeight);
+
+            const dropArea = document.getElementById('drop-area');
+            dropArea.innerHTML = ''; // Clear previous content
+            dropArea.appendChild(canvas);
+
+
+        }
+
+        function downloadImage() {
+            const format = document.getElementById('format').value;
+            const canvas = document.querySelector('canvas');
+            const dataURL = canvas.toDataURL(`image/${format}`);
+            const a = document.createElement('a');
+            a.href = dataURL;
+            a.download = `resized_image.${format}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+
+</html>
